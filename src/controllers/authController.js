@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const authServices = require("../services/authServices.js");
 const { TOKEN_COOKIE_NAME } = require("../config/constants.js");
+const { isAuth, isGuest } = require("../middlewares/authMiddleware.js");
 
 const renderLoginPage = (req, res) => {
 	res.render("login");
@@ -14,7 +15,9 @@ const loginUser = async (req, res) => {
 
 		let token = await authServices.createToken(user);
 
-		res.cookie(TOKEN_COOKIE_NAME, token);
+		res.cookie(TOKEN_COOKIE_NAME, token, {
+			httpOnly: true,
+		});
 
 		res.redirect("/");
 	} catch (error) {
@@ -51,10 +54,10 @@ const logoutUser = (req, res) => {
 	res.redirect("/");
 };
 
-router.get("/login", renderLoginPage);
+router.get("/login", isGuest, renderLoginPage);
 router.post("/login", loginUser);
-router.get("/register", renderRegisterPage);
+router.get("/register", isGuest, renderRegisterPage);
 router.post("/register", registerUser);
-router.get("/logout", logoutUser);
+router.get("/logout", isAuth, logoutUser);
 
 module.exports = router;

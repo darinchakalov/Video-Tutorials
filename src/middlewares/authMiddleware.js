@@ -18,3 +18,19 @@ exports.auth = (req, res, next) => {
 		return next();
 	});
 };
+
+exports.isAuth = (req, res, next) => {
+	if (res.user) {
+		next();
+	} else {
+		res.redirect("/");
+	}
+};
+
+exports.isGuest = (req, res, next) => {
+	if (!res.user) {
+		next();
+	} else {
+		res.redirect("/");
+	}
+};
