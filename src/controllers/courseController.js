@@ -22,7 +22,7 @@ const renderDetailsPage = async (req, res) => {
 	try {
 		let courseData = await courseService.getOne(req.params.id);
 		let course = courseData.toObject();
-		let isCreator = course.creator == res.user.id ? true : false;
+		let isCreator = course.creator == res.user?.id ? true : false;
 		let isEnrowed = course.users.some((x) => x._id == res.user?.id);
 		res.render("details", { ...course, isCreator, isEnrowed });
 	} catch (error) {

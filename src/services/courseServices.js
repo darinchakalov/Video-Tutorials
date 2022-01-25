@@ -32,6 +32,10 @@ const edit = function (courseId, course) {
 	return Course.findByIdAndUpdate(courseId, course, { runValidators: true });
 };
 
+const findEnrowed = function (userId) {
+	return Course.find().populate("users");
+};
+
 const courseService = {
 	create,
 	getAll,
@@ -39,6 +43,7 @@ const courseService = {
 	enrow,
 	del,
 	edit,
+	findEnrowed,
 };
 
 module.exports = courseService;

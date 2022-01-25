@@ -28,7 +28,6 @@ const createToken = function (user) {
 	};
 	return jwt.sign(payload, SECRET);
 };
-
 const authServices = {
 	register,
 	login,
