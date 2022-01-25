@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const authServices = require("../services/authServices.js");
+const { TOKEN_COOKIE_NAME } = require("../config/constants.js");
 
 const renderLoginPage = (req, res) => {
 	res.render("login");
@@ -9,8 +10,12 @@ const renderLoginPage = (req, res) => {
 const loginUser = async (req, res) => {
 	const { username, password } = req.body;
 	try {
-		await authServices.login(username, password);
-		console.log("succesful login...");
+		let user = await authServices.login(username, password);
+
+		let token = await authServices.createToken(user);
+
+		res.cookie(TOKEN_COOKIE_NAME, token);
+
 		res.redirect("/");
 	} catch (error) {
 		res.locals.error = error;
