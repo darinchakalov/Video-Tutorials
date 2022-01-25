@@ -41,9 +41,32 @@ const enrowCourse = async (req, res) => {
 	}
 };
 
+const deleteCourse = async (req, res) => {
+	try {
+		await courseService.del(req.params.id);
+		res.redirect("/");
+	} catch (error) {
+		res.locals.error = error;
+		res.render("details");
+	}
+};
+
+const renderEditPage = (req, res) => {
+	res.render("edit");
+};
+
+const editCourse = async (req, res) => {
+	try {
+	} catch (error) {
+		res.locals.error = error;
+		res.render("details");
+	}
+};
+
 router.get("/create", renderCreatePage);
 router.post("/create", createCourse);
 router.get("/details/:id", renderDetailsPage);
 router.get("/enrow/:id", enrowCourse);
+router.get("/delete/:id", deleteCourse);
 
 module.exports = router;

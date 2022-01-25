@@ -29,7 +29,7 @@ const del = function (courseId) {
 };
 
 const edit = function (courseId, course) {
-	return Course.findByIdAndUpdate(courseId);
+	return Course.findByIdAndUpdate(courseId, course, { runValidators: true });
 };
 
 const courseService = {
@@ -38,6 +38,7 @@ const courseService = {
 	getOne,
 	enrow,
 	del,
+	edit,
 };
 
 module.exports = courseService;
