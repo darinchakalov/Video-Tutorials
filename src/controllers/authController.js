@@ -42,6 +42,13 @@ const registerUser = async (req, res) => {
 	}
 	try {
 		await authServices.register(username, password);
+
+		let user = await authServices.login(username, password);
+		let token = await authServices.createToken(user);
+		res.cookie(TOKEN_COOKIE_NAME, token, {
+			httpOnly: true,
+		});
+
 		res.redirect("/");
 	} catch (error) {
 		req.locals.error = "Passwords do not match!";
