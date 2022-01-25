@@ -18,6 +18,7 @@ const courseSchema = new mongoose.Schema({
 		default: false,
 	},
 	created_at: { type: Date },
+	creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 	users: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
