@@ -17,7 +17,7 @@ const courseSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
-	timestamps: { createdAt: "created_at", required: true },
+	created_at: { type: Date },
 	users: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
@@ -25,3 +25,7 @@ const courseSchema = new mongoose.Schema({
 		},
 	],
 });
+
+const Course = mongoose.model("Course", courseSchema);
+
+module.exports = Course;
