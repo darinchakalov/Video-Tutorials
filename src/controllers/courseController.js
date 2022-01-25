@@ -51,12 +51,20 @@ const deleteCourse = async (req, res) => {
 	}
 };
 
-const renderEditPage = (req, res) => {
-	res.render("edit");
+const renderEditPage = async (req, res) => {
+	try {
+		let course = await courseService.getOne(req.params.id);
+		res.render("edit", course);
+	} catch (error) {
+		res.locals.error = error;
+		res.render("edit");
+	}
 };
 
 const editCourse = async (req, res) => {
 	try {
+		await courseService.edit(req.params.id, req.body);
+		res.redirect(`/details/${req.params.id}`);
 	} catch (error) {
 		res.locals.error = error;
 		res.render("details");
@@ -68,5 +76,7 @@ router.post("/create", createCourse);
 router.get("/details/:id", renderDetailsPage);
 router.get("/enrow/:id", enrowCourse);
 router.get("/delete/:id", deleteCourse);
+router.get("/edit/:id", renderEditPage);
+router.post("/edit/:id", editCourse);
 
 module.exports = router;
